@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical" >
+    
+        <Button
+        	android:id="@+id/startrecord"	
+        	android:text="Start Record"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	tools:context=".MainActivity"
+        />
+    
+        <Button
+        	android:id="@+id/stoptrecord"	
+        	android:text="Stop Record"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	tools:context=".MainActivity"
+        />
+
+        <Button
+            android:id="@+id/callrecord"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Call Record"
+            tools:context=".MainActivity" />
+        
+        <Button
+            android:id="@+id/startplaying"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Start Playing"
+            tools:context=".MainActivity" />
+
+		<Button
+            android:id="@+id/pauseplaying"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Pause Playing"
+            tools:context=".MainActivity" />
+        
+        <Button
+            android:id="@+id/stopplaying"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Stop Playing"
+            tools:context=".MainActivity" />
+</LinearLayout>
