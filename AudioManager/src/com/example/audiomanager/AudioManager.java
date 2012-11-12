@@ -18,14 +18,16 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class AudioManager extends Activity {
+public class AudioManager /* extends Activity */ {
 
+	/*
 	private Button startRecord = null;
 	private Button stopRecord = null;
 	private Button callRecord = null;
 	private Button startPlaying = null;
 	private Button stopPlaying = null;
 	private Button pausePlaying = null;
+	*/
 	
 	private static final String LOG_TAG = "AudioManager";
 	private MediaRecorder recorder = null;
@@ -38,7 +40,7 @@ public class AudioManager extends Activity {
 	private File audiofile = null;
 	private MediaPlayer Player = null;
 	private String tmpCurrentSong = null;
-	private Settings setting = null;
+	//private Settings setting = null;
 	
 	public boolean getStereo() {
 		return stereo;
@@ -180,7 +182,7 @@ public class AudioManager extends Activity {
         recorder.start();
         setRecording(true);
         tmpCurrentSong = audiofile.getAbsolutePath();
-        Toast.makeText(getApplicationContext(), "RecordCall Launch !", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "RecordCall Launch !", Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -232,7 +234,7 @@ public class AudioManager extends Activity {
         recorder.start();
         setRecording(true);
         tmpCurrentSong = audiofile.getAbsolutePath();
-        Toast.makeText(getApplicationContext(), "Record Launch !", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "Record Launch !", Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -241,9 +243,10 @@ public class AudioManager extends Activity {
 		recorder.release();
 		recorder = null;
 		setRecording(false);
-		Toast.makeText(getApplicationContext(), "Record Stop !\n" + tmpCurrentSong, Toast.LENGTH_LONG).show();
+		//Toast.makeText(getApplicationContext(), "Record Stop !\n" + tmpCurrentSong, Toast.LENGTH_LONG).show();
 	}
 
+/*	
 	private OnClickListener clickListenerRecordMic = new OnClickListener() {
 		  public void onClick(View v) {
 			  recordMic(setting.getFilePrefix() + "_testrecord", setting.getBitRates(), setting.getFormat());
@@ -318,5 +321,6 @@ public class AudioManager extends Activity {
         }
         return true;
     }
-    
+  
+    */
 }
