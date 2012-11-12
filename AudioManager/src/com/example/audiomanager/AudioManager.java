@@ -8,8 +8,11 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -30,10 +33,20 @@ public class AudioManager extends Activity {
 	private boolean isSongLoaded = false;
 	private boolean isPlaying = false;
 	private boolean isPaused = false;
+	private boolean stereo = false;
 	private float recordVolume = 100;
 	private File audiofile = null;
 	private MediaPlayer Player = null;
 	private String tmpCurrentSong = null;
+	private Settings setting = null;
+	
+	public boolean getStereo() {
+		return stereo;
+	}
+	
+	public void setStereo(boolean nstereo) {
+		stereo = nstereo;
+	}
 	
 	public boolean isSongLoad() {
 		return isSongLoaded;
@@ -51,16 +64,17 @@ public class AudioManager extends Activity {
 		this.isRecording = isRecording;
 	}
 	
-	public void loadSong(String Path) {
+	public int loadSong(String Path) {
 		Player = new MediaPlayer();
 		try {
 			Player.setDataSource(Path);
 		}
 		catch (IOException e) {
             Log.e(LOG_TAG, "setDataSource() failed");
-            return;
+            return -1;
         }
 		isSongLoaded = true;
+		return 1;
 	}
 	
 	public void playSong() {
@@ -120,10 +134,16 @@ public class AudioManager extends Activity {
 	}
 	
 	public void recordCall(String OutputFilename, int bitrates, FileFormats format) {
+		if (isRecording == false) {
 		File dir = Environment.getExternalStorageDirectory();
 		String formatsuf = null;
 		recorder = new MediaRecorder();
 		recorder.setAudioEncodingBitRate(bitrates);
+		if (stereo) {
+			recorder.setAudioChannels(2);
+		} else {
+			recorder.setAudioChannels(1);
+		}
 		recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
         switch (format) {
         	case GPP:
@@ -161,13 +181,20 @@ public class AudioManager extends Activity {
         setRecording(true);
         tmpCurrentSong = audiofile.getAbsolutePath();
         Toast.makeText(getApplicationContext(), "RecordCall Launch !", Toast.LENGTH_LONG).show();
+		}
 	}
 	
 	public void recordMic(String OutputFilename, int bitrates, FileFormats format) {
+		if (isRecording == false) {
 		File dir = Environment.getExternalStorageDirectory();
 		String formatsuf = null;
 		recorder = new MediaRecorder();
 		recorder.setAudioEncodingBitRate(bitrates);
+		if (stereo) {
+			recorder.setAudioChannels(2);
+		} else {
+			recorder.setAudioChannels(1);
+		}
 		recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         switch (format) {
         	case GPP:
@@ -206,6 +233,7 @@ public class AudioManager extends Activity {
         setRecording(true);
         tmpCurrentSong = audiofile.getAbsolutePath();
         Toast.makeText(getApplicationContext(), "Record Launch !", Toast.LENGTH_LONG).show();
+		}
 	}
 	
 	public void stopRecording() {
@@ -213,12 +241,12 @@ public class AudioManager extends Activity {
 		recorder.release();
 		recorder = null;
 		setRecording(false);
-		Toast.makeText(getApplicationContext(), "Record Stop !", Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), "Record Stop !\n" + tmpCurrentSong, Toast.LENGTH_LONG).show();
 	}
 
 	private OnClickListener clickListenerRecordMic = new OnClickListener() {
 		  public void onClick(View v) {
-			  recordMic("testrecord", 64000, FileFormats.GPP);
+			  recordMic(setting.getFilePrefix() + "_testrecord", setting.getBitRates(), setting.getFormat());
 		}
 	};
 	
@@ -230,7 +258,7 @@ public class AudioManager extends Activity {
 
 	private OnClickListener clickListenerCallRecord = new OnClickListener() {
 		public void onClick(View v) {
-			recordCall("testrecordcall", 128000, FileFormats.MP4);
+			recordCall(setting.getFilePrefix() + "_testrecordcall", setting.getBitRates(), setting.getFormat());
 		}
 	};
 
@@ -257,6 +285,7 @@ public class AudioManager extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setting = new Settings(this);
         startRecord = (Button)findViewById(R.id.startrecord);
         stopRecord = (Button)findViewById(R.id.stoptrecord);
         callRecord = (Button)findViewById(R.id.callrecord);
@@ -277,4 +306,17 @@ public class AudioManager extends Activity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+        case R.id.settings:
+            Intent intent = new Intent(this, SettingsUI.class);
+            this.startActivity(intent);
+            break;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+    
 }
