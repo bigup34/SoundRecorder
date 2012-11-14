@@ -17,8 +17,8 @@
                	<EditTextPreference
                			android:name="SoundPrefix"
 		                android:summary="Choose song prefix."
-		                android:defaultValue="SoundRecorder_"
-		                android:title="SoundRecorder_"
+		                android:defaultValue="Record_"
+		                android:title="Record_"
 		                android:key="editPrefix" />               	               	
                </PreferenceCategory>
     

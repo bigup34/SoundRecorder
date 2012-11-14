@@ -180,8 +180,7 @@ public class AudioManager {
 	
 	public void recordMic(String OutputFilename, int bitrates, FileFormats format) {
 		if (isRecording == false) {
-		//File dir = new File(rootFolder);
-		File dir = Environment.getExternalStorageDirectory();
+		File dir = new File(rootFolder);
 		String formatsuf = null;
 		recorder = new MediaRecorder();
 		recorder.setAudioEncodingBitRate(bitrates);

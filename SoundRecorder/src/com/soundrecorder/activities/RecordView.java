@@ -3,6 +3,7 @@ package com.soundrecorder.activities;
 import java.util.Calendar;
 
 import com.soundrecorder.libraries.AudioManager;
+import com.soundrecorder.libraries.FileManager;
 //import com.soundrecorder.libraries.FileManager;
 import com.soundrecorder.libraries.Settings;
 
@@ -29,7 +30,7 @@ public class RecordView extends Activity {
 	private String		filename = null;
 	private Settings	settings = new Settings(this);
 	private AudioManager audioManager = new AudioManager();
-//	private FileManager	fileManager = new FileManager(this.getApplicationContext());
+	private FileManager	fileManager;
 	
 	private String getFileName()
 	{
@@ -134,7 +135,8 @@ public class RecordView extends Activity {
         mic.setOnClickListener(clickListenerMic);
         textInfo.setText("Press mic to start recording");
         timeInfo.setText("00:00:00");
- //       audioManager.setRootFolder(fileManager.getRootFolder());
+        fileManager = new FileManager(this.getApplicationContext());
+        audioManager.setRootFolder(fileManager.getRootFolder());
         
 		sec = 0;
 		min = 0;

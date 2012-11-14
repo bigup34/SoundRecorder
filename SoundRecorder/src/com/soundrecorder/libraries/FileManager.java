@@ -1,9 +1,9 @@
 package com.soundrecorder.libraries;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 
@@ -15,14 +15,18 @@ public class FileManager {
 	
 	public FileManager(Context context)
 	{
-		Log.e("lol", "Constructor in");
 		c = context;
 		storageMethod = false;
-		Log.e("lol", "Constructor 1");
-		File f = c.getDir("SoundRecord", Context.MODE_WORLD_READABLE);
-		Log.e("lol", "Constructor 2");
-		rootFolder = f.getAbsolutePath();
-		Log.e("lol", "Constructor out");
+		Environment.getExternalStorageDirectory().getPath();
+		File file = new File(Environment.getExternalStorageDirectory().getPath() + "/SoundRecorder");
+		if (file.exists() == false)
+		{
+			if (file.mkdir())
+				Log.e("FileManager", "Ajout du dossier : " + file.getAbsolutePath());
+			else
+				Log.e("FileManager", "Echec d'ajout dossier : " + file.getAbsolutePath());
+		}
+		rootFolder = file.getAbsolutePath();
 	}
 	
 	public boolean isStorageMethod()
@@ -87,24 +91,12 @@ public class FileManager {
 		return (true);
 	}
 	
-	public ArrayList<String> getContentDir()
+	public String[] getContentDir()
 	{
-		ArrayList<String> files = new ArrayList<String>();
-		File dir = new File(this.getRootFolder());
+		File dir = new File(rootFolder);
 		
 		if (dir.isDirectory())
-		{
-			File[] listFiles = dir.listFiles();
-
-			for (File file : listFiles)
-		    {
-				if(file.isFile())
-		        {
-					files.add(file.getName());
-					Log.e("list folder", file.getName());
-		        }
-		    }
-		}
-	    return files;
+			return dir.list();
+	    return null;
 	}
 }

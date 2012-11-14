@@ -16,7 +16,7 @@ public class Settings {
 	
 	public String getFilePrefix() {
 	   SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context); 
-	   return sharedPref.getString("editPrefix", "SoundRecorder_");
+	   return sharedPref.getString("editPrefix", "Record_");
    }
 	
 	public boolean getAutoRecordCall() {
