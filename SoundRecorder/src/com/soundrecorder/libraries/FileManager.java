@@ -79,16 +79,14 @@ public class FileManager {
 	{
 		File file = new File (rootFolder + File.separator + filename);
 		
-		file.renameTo(new File(rootFolder + File.separator + newFilename));
-		return (true);
+		return (file.renameTo(new File(rootFolder + File.separator + newFilename)));
 	}
 	
 	public boolean removeFile(String filename)
 	{
 		File file = new File (rootFolder + File.separator + filename);
 		
-		file.delete();
-		return (true);
+		return (file.delete());
 	}
 	
 	public String[] getContentDir()

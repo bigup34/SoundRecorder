@@ -3,24 +3,34 @@ package com.soundrecorder.activities;
 import com.soundrecorder.libraries.FileManager;
 
 import android.os.Bundle;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.Editable;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+@SuppressLint("NewApi")
 public class FileManagerView extends Activity {
 	
 	private ImageButton back;
 	private LinearLayout svContent;
 	private FileManager	fileManager;
+	private String[] fileList;
+	private int curOptionItem;
 	
 	private OnClickListener clickListenerBack = new OnClickListener() {
 		public void onClick(View v) {
@@ -37,15 +47,59 @@ public class FileManagerView extends Activity {
 	};
 	
 	private OnLongClickListener clickListenerLongText = new OnLongClickListener() {
-
 		public boolean onLongClick(View arg0) {
+			curOptionItem = arg0.getId();
 			return false;
 		}
 	};
 	
+	private void deleteClick()
+	{
+		if (fileManager.removeFile(fileList[curOptionItem]) == true)
+    	{
+    		svContent.removeAllViews();
+    		loadFileList();
+    		Toast.makeText(getBaseContext(), "File has been removed", Toast.LENGTH_LONG).show();
+    	}
+    	else
+    		Toast.makeText(getBaseContext(), "Error while removing the file. Try again !", Toast.LENGTH_LONG).show();
+	}
+	
+	private void renameClick()
+	{
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+		alert.setTitle("File name");
+		alert.setMessage("Enter the new file name");
+
+		final EditText input = new EditText(this);
+		alert.setView(input);
+
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface dialog, int whichButton) {
+		  Editable value = input.getText();
+			if (fileManager.renameFile(fileList[curOptionItem], value.toString()) == true)
+	    	{
+	    		svContent.removeAllViews();
+	    		loadFileList();
+	    		Toast.makeText(getBaseContext(), "File has been renamed", Toast.LENGTH_LONG).show();
+	    	}
+	    	else
+	    		Toast.makeText(getBaseContext(), "Error while renaming the file. Try again !", Toast.LENGTH_LONG).show();
+		  }
+		});
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		  public void onClick(DialogInterface dialog, int whichButton) {
+		    return ;
+		  }
+		});
+
+		alert.show();
+	}
+	
 	private void loadFileList()
 	{
-		String[] fileList;
 		int i;
 		
 		fileList = fileManager.getContentDir();
@@ -59,6 +113,7 @@ public class FileManagerView extends Activity {
 			text.setOnClickListener(clickListenerText);
 			text.setOnLongClickListener(clickListenerLongText);
 			text.setText(fileList[i]);
+			text.setId(i);
 			svContent.addView(text);
 		}
 		if (i == 0)
@@ -72,12 +127,36 @@ public class FileManagerView extends Activity {
 	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-	  if (v.getId() == R.id.sv_content) 
-	  {
+		if (v.getId() == R.id.sv_content) 
+		{
 		  super.onCreateContextMenu(menu, v, menuInfo);
-		  menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "Supprimer cet élément");
+		  menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "Play");
+		  menu.add(Menu.NONE, Menu.FIRST + 1, Menu.NONE, "Rename");
+		  menu.add(Menu.NONE, Menu.FIRST + 2, Menu.NONE, "Delete");
+		  menu.add(Menu.NONE, Menu.FIRST + 3, Menu.NONE, "Share");
 	    }
 	  }
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    	case Menu.FIRST:
+	    		break;
+	        
+	    	case Menu.FIRST + 1:
+	        	renameClick();
+	        	break;
+	        	
+	        case Menu.FIRST + 2:
+	        	deleteClick();
+	        	break;
+	        	
+	        case Menu.FIRST + 3:
+	        	break;
+
+	    }
+	    return super.onContextItemSelected(item);
+	}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,7 +168,6 @@ public class FileManagerView extends Activity {
         
         back.setOnClickListener(clickListenerBack);
         fileManager = new FileManager(this.getApplicationContext());
-        svContent.addTouchables(null);
         registerForContextMenu(svContent);
         loadFileList();
     }
