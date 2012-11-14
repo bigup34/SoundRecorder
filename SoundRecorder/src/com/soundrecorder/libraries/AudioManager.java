@@ -7,7 +7,6 @@ import com.soundrecorder.ressources.FileFormats;
 
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.util.Log;
 
 public class AudioManager {
@@ -130,52 +129,53 @@ public class AudioManager {
 	
 	public void recordCall(String OutputFilename, int bitrates, FileFormats format) {
 		if (isRecording == false) {
-		File dir = Environment.getExternalStorageDirectory();
-		String formatsuf = null;
-		recorder = new MediaRecorder();
-		recorder.setAudioEncodingBitRate(bitrates);
-		if (stereo) {
-			recorder.setAudioChannels(2);
-		} else {
-			recorder.setAudioChannels(1);
-		}
-		recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
-        switch (format) {
-        	case GPP:
-        		recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        		formatsuf = "3gpp";
-        		break;
-        	case AMR:
-        		recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-        		formatsuf = "amr";
-        		break;
-        	case MP4:
-        		recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        		formatsuf = "mp4";
-        		break;
-        	default:
-        		recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        		formatsuf = "3gpp";
-        		break;
-        	}
-		try {
-			audiofile = File.createTempFile(OutputFilename, "." + formatsuf, dir);
-		} catch (IOException e) {
-			Log.e(LOG_TAG, "sdcard access error");
-			return;
-		}
-        recorder.setOutputFile(audiofile.getAbsolutePath());
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        try {
-            recorder.prepare();
-        } catch (IOException e) {
-            Log.v(LOG_TAG, "prepare() failed");
-            return;
-        }
-        recorder.start();
-        setRecording(true);
-        tmpCurrentSong = audiofile.getAbsolutePath();
-		}
+			File dir = new File(rootFolder);
+			String formatsuf = null;
+			recorder = new MediaRecorder();
+			recorder.setAudioEncodingBitRate(bitrates);
+			if (stereo) {
+				recorder.setAudioChannels(2);
+			} else {
+				recorder.setAudioChannels(1);
+			}
+			recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
+	        switch (format) {
+	        	case GPP:
+	        		recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+	        		formatsuf = "3gpp";
+	        		break;
+	        	case AMR:
+	        		recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+	        		formatsuf = "amr";
+	        		break;
+	        	case MP4:
+	        		recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+	        		formatsuf = "mp4";
+	        		break;
+	        	default:
+	        		recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+	        		formatsuf = "3gpp";
+	        		break;
+	        	}
+			try {
+				tmpCurrentSong = dir.getAbsolutePath() + "/" + OutputFilename + "." + formatsuf;
+				audiofile = File.createTempFile(OutputFilename, "." + formatsuf, dir);
+			} catch (IOException e) {
+				Log.e(LOG_TAG, "sdcard access error");
+				return;
+			}
+	        recorder.setOutputFile(audiofile.getAbsolutePath());
+	        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+	        try {
+	            recorder.prepare();
+	        } catch (IOException e) {
+	            Log.v(LOG_TAG, "prepare() failed");
+	            return;
+	        }
+	        recorder.start();
+	        setRecording(true);
+	        tmpCurrentSong = audiofile.getAbsolutePath();
+			}
 	}
 	
 	public void recordMic(String OutputFilename, int bitrates, FileFormats format) {

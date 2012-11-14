@@ -23,6 +23,13 @@
         <item>MP4</item>
         <item>AMR</item>
     </string-array>
+
+    <string-array name="formatvalues_arrays">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    
     <string-array name="bitratesname_arrays">
         <item>64 kbps</item>
         <item>128 kbps</item>
@@ -33,7 +40,18 @@
         <item>128000</item>
         <item>256000</item>
     </string-array>
+    <string-array name="AutoRecordValueAray">
+        <item>Yes</item>
+        <item>Notif</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="AutoRecordNameAray">
+        <item>Autorecording call</item>
+        <item>Notification ask for record</item>
+        <item>Disabled Autorecord</item>
+    </string-array>
 
     <string name="title_activity_sound_player_view">SoundPlayerView</string>
+    <string name="title_activity_pop_up">PopUp</string>
 
 </resources>

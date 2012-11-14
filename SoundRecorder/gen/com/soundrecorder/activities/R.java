@@ -9,9 +9,12 @@ package com.soundrecorder.activities;
 
 public final class R {
     public static final class array {
-        public static final int bitratesname_arrays=0x7f050001;
-        public static final int bitratesvalues_arrays=0x7f050002;
+        public static final int AutoRecordNameAray=0x7f050005;
+        public static final int AutoRecordValueAray=0x7f050004;
+        public static final int bitratesname_arrays=0x7f050002;
+        public static final int bitratesvalues_arrays=0x7f050003;
         public static final int formats_arrays=0x7f050000;
+        public static final int formatvalues_arrays=0x7f050001;
     }
     public static final class attr {
     }
@@ -31,33 +34,37 @@ public final class R {
     public static final class id {
         public static final int ScrollView01=0x7f080001;
         public static final int back_btn=0x7f080000;
-        public static final int file_manager=0x7f080008;
-        public static final int menu_layout=0x7f080006;
-        public static final int menu_settings=0x7f08000e;
-        public static final int mic_image=0x7f080004;
-        public static final int next_btn=0x7f08000d;
-        public static final int play_pause_btn=0x7f08000c;
-        public static final int prev_btn=0x7f08000b;
-        public static final int record_button=0x7f080007;
-        public static final int record_time=0x7f080005;
-        public static final int record_view_info=0x7f080003;
-        public static final int song_title=0x7f08000a;
-        public static final int sound_player=0x7f080009;
+        public static final int file_manager=0x7f08000a;
+        public static final int menu_layout=0x7f080008;
+        public static final int menu_settings=0x7f080010;
+        public static final int mic_image=0x7f080006;
+        public static final int next_btn=0x7f08000f;
+        public static final int play_pause_btn=0x7f08000e;
+        public static final int prev_btn=0x7f08000d;
+        public static final int recordNO=0x7f080004;
+        public static final int recordYES=0x7f080003;
+        public static final int record_button=0x7f080009;
+        public static final int record_time=0x7f080007;
+        public static final int record_view_info=0x7f080005;
+        public static final int song_title=0x7f08000c;
+        public static final int sound_player=0x7f08000b;
         public static final int sv_content=0x7f080002;
     }
     public static final class layout {
         public static final int activity_file_manager_view=0x7f030000;
-        public static final int activity_record_view=0x7f030001;
-        public static final int activity_recorder_menu=0x7f030002;
-        public static final int activity_settings_view=0x7f030003;
-        public static final int activity_sound_player_view=0x7f030004;
+        public static final int activity_pop_up=0x7f030001;
+        public static final int activity_record_view=0x7f030002;
+        public static final int activity_recorder_menu=0x7f030003;
+        public static final int activity_settings_view=0x7f030004;
+        public static final int activity_sound_player_view=0x7f030005;
     }
     public static final class menu {
         public static final int activity_file_manager_view=0x7f070000;
-        public static final int activity_record_view=0x7f070001;
-        public static final int activity_recorder_menu=0x7f070002;
-        public static final int activity_settings_view=0x7f070003;
-        public static final int activity_sound_player_view=0x7f070004;
+        public static final int activity_pop_up=0x7f070001;
+        public static final int activity_record_view=0x7f070002;
+        public static final int activity_recorder_menu=0x7f070003;
+        public static final int activity_settings_view=0x7f070004;
+        public static final int activity_sound_player_view=0x7f070005;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
@@ -74,6 +81,7 @@ public final class R {
         public static final int sound_player_button_text=0x7f040009;
         public static final int time=0x7f04000d;
         public static final int title_activity_file_manager_view=0x7f04000f;
+        public static final int title_activity_pop_up=0x7f040012;
         public static final int title_activity_record_view=0x7f040008;
         public static final int title_activity_recorder_menu=0x7f040002;
         public static final int title_activity_settings_view=0x7f040010;

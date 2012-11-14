@@ -2,23 +2,19 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
         <PreferenceCategory
                 android:title="General settings">
-                <CheckBoxPreference
-                        android:title="AutoRecordCall"
-                        android:defaultValue="false"
-                        android:summary="Do you want SoundRecorder record automatically your phone calls ?"
-                        android:key="checkboxAutoRecordCall" />
-                
-               	<CheckBoxPreference
-                        android:title="SDCard"
-                        android:defaultValue="false"
-                        android:summary="Do you want SoundRecorder use your SDCARD to store record sounds ?"
-                        android:key="checkboxSDCARD" />
+                <ListPreference
+                        android:title="Autorecord call"
+                        android:summary="Choose autorecord type"
+                        android:key="listAutorecord"
+                        android:defaultValue="No"
+                        android:entries="@array/AutoRecordNameAray"
+                        android:entryValues="@array/AutoRecordValueAray" />
 			
                	<EditTextPreference
                			android:name="SoundPrefix"
 		                android:summary="Choose song prefix."
 		                android:defaultValue="Record_"
-		                android:title="Record_"
+		                android:title="Choose Prefix"
 		                android:key="editPrefix" />               	               	
                </PreferenceCategory>
     
@@ -35,7 +31,7 @@
                         android:key="listFormats"
                         android:defaultValue="3GP"
                         android:entries="@array/formats_arrays"
-                        android:entryValues="@array/formats_arrays" />
+                        android:entryValues="@array/formatvalues_arrays" />
                  <ListPreference
                         android:title="Bitrates values"
                         android:summary="Choose bitrates for the recorded sound."

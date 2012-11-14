@@ -9,26 +9,34 @@ import android.preference.PreferenceManager;
 public class Settings {
 		
 	private Context context = null;
+	private boolean notif = false;
+	
+	public boolean getNotif()
+	{
+		return notif;
+	}
 	
 	public Settings(final Context context) {
         this.context = context;
     }
 	
 	public String getFilePrefix() {
-	   SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context); 
+	   SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 	   return sharedPref.getString("editPrefix", "Record_");
    }
 	
 	public boolean getAutoRecordCall() {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context); 
-		return sharedPref.getBoolean("checkboxAutoRecordCall", false);
+		String tmp = sharedPref.getString("listAutorecord", "No");
+		if (tmp == "No")
+			return false;
+		else if (tmp == "Yes")
+			notif = false;
+		else
+			notif = true;
+		return true;
 	}
 	
-	public boolean getSDStatus() {
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context); 
-		return sharedPref.getBoolean("checkboxSDCARD", false);
-	}
-
 	public boolean getStereo() {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context); 
 		return sharedPref.getBoolean("checkboxStereo", true);
@@ -42,12 +50,13 @@ public class Settings {
 	
 	public FileFormats getFormat() {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context); 
-		String tmp = sharedPref.getString("listFormats", "3GP");
-		if (tmp == "3GP")
+		String tmp = sharedPref.getString("listFormats", "0");
+		int tmp2 = Integer.parseInt(tmp);
+		if (tmp2 == 1)
 			return FileFormats.GPP;
-		else if (tmp == "MP4")
+		else if (tmp2 == 2)
 			return FileFormats.MP4;
-		else if (tmp == "AMR")
+		else if (tmp2 == 3)
 			return FileFormats.AMR;
 		else
 			return FileFormats.GPP;
