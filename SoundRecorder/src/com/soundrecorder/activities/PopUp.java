@@ -5,20 +5,32 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 public class PopUp extends Activity {
-
-	private boolean wantrecord = false;
+	
+	Context c = null;
 	
 	private OnClickListener clickListenerYesRecord = new OnClickListener() {
 		public void onClick(View v) {
-			wantrecord = true;
+			SharedPreferences myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+			SharedPreferences.Editor prefsEditor;  
+			prefsEditor = myPrefs.edit();
+			prefsEditor.putBoolean("RECORDNOTIF", true);  
+			prefsEditor.commit();
+			finish();
 		}
 	};
 
 	private OnClickListener clickListenerNoRecord = new OnClickListener() {
 		public void onClick(View v) {
-			wantrecord = false;
+			SharedPreferences myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+			SharedPreferences.Editor prefsEditor;  
+			prefsEditor = myPrefs.edit();  
+			prefsEditor.putBoolean("RECORDNOTIF", false);  
+			prefsEditor.commit();
+			finish();
 		}
 	};
 	
@@ -30,13 +42,7 @@ public class PopUp extends Activity {
         bYes.setOnClickListener(clickListenerYesRecord);
         Button bNo = (Button)findViewById(R.id.recordNO);
         bNo.setOnClickListener(clickListenerNoRecord);
+        c = this;
     }
 
-	public boolean getWantrecord() {
-		return wantrecord;
-	}
-
-	public void setWantrecord(boolean wantrecord) {
-		this.wantrecord = wantrecord;
-	}
 }

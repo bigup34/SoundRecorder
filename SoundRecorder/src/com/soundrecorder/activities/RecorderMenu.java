@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -30,10 +31,9 @@ public class RecorderMenu extends Activity {
 	private AudioManager audio = new AudioManager();
 	private Settings setting = new Settings(this);
 	private String filename = null;
-	//private boolean wantrecord = false;
 
 	private OnClickListener clickListenerRecord = new OnClickListener() {
-		public void onClick(View v) {
+		public void onClick(View v) {		
 			Intent intent = new Intent().setClass(getApplicationContext(), RecordView.class);
 			startActivity(intent);
 		}
@@ -64,6 +64,9 @@ public class RecorderMenu extends Activity {
     			case TelephonyManager.CALL_STATE_OFFHOOK:
     				if (setting.getAutoRecordCall())
     				{
+    					SharedPreferences myPrefs;   
+    					myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);  
+    					boolean RecordNotif = myPrefs.getBoolean("RECORDNOTIF", false);
     					Calendar c = Calendar.getInstance();
 						
 						filename = setting.getFilePrefix() + (String.format("%04d", (Integer)c.get(Calendar.YEAR))) + '-';
@@ -73,7 +76,7 @@ public class RecorderMenu extends Activity {
 						filename += (String.format("%02d", (Integer)c.get(Calendar.MINUTE))) + '.';
 						filename += (String.format("%02d", (Integer)c.get(Calendar.SECOND)));
 
-    					if (audio.isRecording() == false)
+    					if (audio.isRecording() == false && (RecordNotif || setting.getNotif() == false))
     					{
        						audio.recordCall(filename, setting.getBitRates(), setting.getFormat());
     						Toast.makeText(RecorderMenu.this, "Record start", Toast.LENGTH_SHORT).show();	
@@ -95,6 +98,11 @@ public class RecorderMenu extends Activity {
     			case TelephonyManager.CALL_STATE_IDLE:
     				if (audio.isRecording())
     				{
+    					SharedPreferences myPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+    					SharedPreferences.Editor prefsEditor;  
+    					prefsEditor = myPrefs.edit();  
+    					prefsEditor.remove("RECORDNOTIF");
+    					prefsEditor.commit();
     					audio.stopRecording();
     					Toast.makeText(getBaseContext(), "File recorded has been saved as " + filename, Toast.LENGTH_LONG).show();
     				}			

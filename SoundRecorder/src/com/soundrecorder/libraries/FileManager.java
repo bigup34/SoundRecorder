@@ -3,6 +3,8 @@ package com.soundrecorder.libraries;
 import java.io.File;
 
 import android.content.Context;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
@@ -96,5 +98,10 @@ public class FileManager {
 		if (dir.isDirectory())
 			return dir.list();
 	    return null;
+	}
+	
+	// TYPES : RingtoneManager.TYPE_NOTIFICATION, RingtoneManager.TYPE_ALARM, RingtoneManager.TYPE_RINGTONE
+	public void setAs(int type, String URL) {
+		RingtoneManager.setActualDefaultRingtoneUri(c, type, Uri.parse(URL));
 	}
 }
