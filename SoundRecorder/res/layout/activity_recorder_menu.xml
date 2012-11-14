@@ -29,6 +29,15 @@
         android:background="@android:drawable/btn_default"
         android:gravity="center"
         android:text="@string/record_button_text" />
+        
+    <Button
+        android:id="@+id/file_manager"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@android:drawable/btn_default"
+        android:gravity="center"
+        android:text="@string/manager_button_text" />
     
     <Button
         android:id="@+id/sound_player"
@@ -38,16 +47,6 @@
         android:background="@android:drawable/btn_default"
         android:gravity="center"
         android:text="@string/sound_player_button_text" />
-    
-    <Button
-        android:id="@+id/file_manager"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:background="@android:drawable/btn_default"
-        android:gravity="center"
-        android:text="@string/manager_button_text" />
-
 
     <TextView
         android:layout_width="fill_parent"

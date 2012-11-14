@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +29,20 @@ public class FileManagerView extends Activity {
 		}
 	};
 	
+	private OnClickListener clickListenerText = new OnClickListener() {
+		public void onClick(View v) {
+			Intent intent = new Intent().setClass(getApplicationContext(), SoundPlayerView.class);
+			startActivity(intent);
+		}
+	};
+	
+	private OnLongClickListener clickListenerLongText = new OnLongClickListener() {
+
+		public boolean onLongClick(View arg0) {
+			return false;
+		}
+	};
+	
 	private void loadFileList()
 	{
 		String[] fileList;
@@ -38,7 +55,9 @@ public class FileManagerView extends Activity {
 			text.setTextColor(Color.WHITE);
 			if (i % 2 == 1)
 				text.setBackgroundColor(Color.rgb(90, 90, 90));
-			text.setMinimumHeight(80);
+			text.setPadding(0, 30, 0, 30);
+			text.setOnClickListener(clickListenerText);
+			text.setOnLongClickListener(clickListenerLongText);
 			text.setText(fileList[i]);
 			svContent.addView(text);
 		}
@@ -50,6 +69,15 @@ public class FileManagerView extends Activity {
 			svContent.addView(text);
 		}
 	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+	  if (v.getId() == R.id.sv_content) 
+	  {
+		  super.onCreateContextMenu(menu, v, menuInfo);
+		  menu.add(Menu.NONE, Menu.FIRST, Menu.NONE, "Supprimer cet élément");
+	    }
+	  }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +90,7 @@ public class FileManagerView extends Activity {
         back.setOnClickListener(clickListenerBack);
         fileManager = new FileManager(this.getApplicationContext());
         svContent.addTouchables(null);
+        registerForContextMenu(svContent);
         loadFileList();
     }
 
