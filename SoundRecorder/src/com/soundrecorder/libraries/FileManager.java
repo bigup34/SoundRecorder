@@ -101,7 +101,9 @@ public class FileManager {
 	}
 	
 	// TYPES : RingtoneManager.TYPE_NOTIFICATION, RingtoneManager.TYPE_ALARM, RingtoneManager.TYPE_RINGTONE
-	public void setAs(int type, String URL) {
-		RingtoneManager.setActualDefaultRingtoneUri(c, type, Uri.parse(URL));
+	public void setAs(int type, String filename) {
+		File tmp = new File(rootFolder + File.separator + filename);
+		Uri uri = Uri.fromFile(tmp);
+		RingtoneManager.setActualDefaultRingtoneUri(c, type, uri);
 	}
 }

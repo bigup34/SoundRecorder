@@ -2,6 +2,7 @@ package com.soundrecorder.activities;
 
 import com.soundrecorder.libraries.FileManager;
 
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -125,6 +126,21 @@ public class FileManagerView extends Activity {
 		}
 	}
 	
+	private void setAsRingtone()
+	{
+		fileManager.setAs(RingtoneManager.TYPE_RINGTONE, fileList[curOptionItem]);
+	}
+
+	private void setAsAlarm()
+	{
+		fileManager.setAs(RingtoneManager.TYPE_ALARM, fileList[curOptionItem]);
+	}
+	
+	private void setAsNotif()
+	{
+		fileManager.setAs(RingtoneManager.TYPE_NOTIFICATION, fileList[curOptionItem]);
+	}
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		if (v.getId() == R.id.sv_content) 
@@ -134,6 +150,9 @@ public class FileManagerView extends Activity {
 		  menu.add(Menu.NONE, Menu.FIRST + 1, Menu.NONE, "Rename");
 		  menu.add(Menu.NONE, Menu.FIRST + 2, Menu.NONE, "Delete");
 		  menu.add(Menu.NONE, Menu.FIRST + 3, Menu.NONE, "Share");
+		  menu.add(Menu.NONE, Menu.FIRST + 4, Menu.NONE, "Set as Ringtone");
+		  menu.add(Menu.NONE, Menu.FIRST + 5, Menu.NONE, "Set as Alarm");
+		  menu.add(Menu.NONE, Menu.FIRST + 6, Menu.NONE, "Set as Notification");
 	    }
 	  }
 	
@@ -153,7 +172,18 @@ public class FileManagerView extends Activity {
 	        	
 	        case Menu.FIRST + 3:
 	        	break;
-
+	        
+	        case Menu.FIRST + 4:
+	        	setAsRingtone();
+	        	break;
+		        
+		    case Menu.FIRST + 5:
+		        setAsAlarm();
+		        break;
+			        
+		    case Menu.FIRST + 6:
+		        setAsNotif();
+		        break;
 	    }
 	    return super.onContextItemSelected(item);
 	}
