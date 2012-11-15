@@ -31,6 +31,7 @@ public class RecorderMenu extends Activity {
 	private AudioManager audio = new AudioManager();
 	private Settings setting = new Settings(this);
 	private String filename = null;
+	private FileManager fileManager = null;
 
 	private OnClickListener clickListenerRecord = new OnClickListener() {
 		public void onClick(View v) {		
@@ -76,20 +77,22 @@ public class RecorderMenu extends Activity {
 						filename += (String.format("%02d", (Integer)c.get(Calendar.MINUTE))) + '.';
 						filename += (String.format("%02d", (Integer)c.get(Calendar.SECOND)));
 
-    					if (audio.isRecording() == false && (RecordNotif || setting.getNotif() == false))
+    					if (audio.isRecording() == false)
     					{
-       						audio.recordCall(filename, setting.getBitRates(), setting.getFormat());
-    						Toast.makeText(RecorderMenu.this, "Record start", Toast.LENGTH_SHORT).show();	
+    						if (RecordNotif || setting.getNotif() == false)
+    						{
+    							audio.recordCall(filename, setting.getBitRates(), setting.getFormat());
+    							Toast.makeText(RecorderMenu.this, "Record start", Toast.LENGTH_SHORT).show();
+    						}
     					}
     				}
     				break;
     			case TelephonyManager.CALL_STATE_RINGING:
-    				Toast.makeText(RecorderMenu.this, "Ringing", Toast.LENGTH_SHORT).show();
     				if (setting.getAutoRecordCall())
     				{
     					if (setting.getNotif())
     					{
-    						SystemClock.sleep(1500);
+    						SystemClock.sleep(1000);
     					    Intent intent = new Intent().setClass(getApplicationContext(), PopUp.class);
     					    startActivity(intent);
     					}
@@ -104,6 +107,8 @@ public class RecorderMenu extends Activity {
     					prefsEditor.remove("RECORDNOTIF");
     					prefsEditor.commit();
     					audio.stopRecording();
+    					audio = new AudioManager();
+    					audio.setRootFolder(fileManager.getRootFolder());
     					Toast.makeText(getBaseContext(), "File recorded has been saved as " + filename, Toast.LENGTH_LONG).show();
     				}			
     				break;
@@ -120,7 +125,6 @@ public class RecorderMenu extends Activity {
     	}
     	
     };
-	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {

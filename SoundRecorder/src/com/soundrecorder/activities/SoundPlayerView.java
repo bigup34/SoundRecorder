@@ -23,6 +23,7 @@ public class SoundPlayerView extends Activity {
 	
 	private OnClickListener clickListenerBack = new OnClickListener() {
 		public void onClick(View v) {
+			audioManager.stopSong();
 			Intent intent = new Intent().setClass(getApplicationContext(), RecorderMenu.class);
 			startActivity(intent);
 		}
@@ -103,6 +104,7 @@ public class SoundPlayerView extends Activity {
 								{
 									playSong();
 									curTime.setText("00:00:00");
+									audioManager.setCurrentTime(0);
 								}
 								else
 									curTime.setText(getCurPos());

@@ -129,50 +129,50 @@ public class AudioManager {
 		return (rootFolder);
 	}
 	
+
 	public void recordCall(String OutputFilename, int bitrates, FileFormats format) {
 		if (isRecording == false) {
-			File dir = new File(rootFolder);
-			String formatsuf = null;
-			recorder = new MediaRecorder();
-			recorder.setAudioEncodingBitRate(bitrates);
-			if (stereo) {
-				recorder.setAudioChannels(2);
-			} else {
-				recorder.setAudioChannels(1);
-			}
-			recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
-	        switch (format) {
-	        	case GPP:
-	        		recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-	        		formatsuf = "3gpp";
-	        		break;
-	        	case AMR:
-	        		recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-	        		formatsuf = "amr";
-	        		break;
-	        	case MP4:
-	        		recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-	        		formatsuf = "mp4";
-	        		break;
-	        	default:
-	        		recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-	        		formatsuf = "3gpp";
-	        		break;
-	        	}
-			tmpCurrentSong = dir.getAbsolutePath() + "/" + OutputFilename + "." + formatsuf;
-			audiofile = new File(tmpCurrentSong);
-	        recorder.setOutputFile(audiofile.getAbsolutePath());
-	        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-	        try {
-	            recorder.prepare();
-	        } catch (IOException e) {
-	            Log.v(LOG_TAG, "prepare() failed");
-	            return;
-	        }
-	        recorder.start();
-	        setRecording(true);
-	        tmpCurrentSong = audiofile.getAbsolutePath();
-			}
+		File dir = new File(rootFolder);
+		String formatsuf = null;
+		recorder = new MediaRecorder();
+		recorder.setAudioEncodingBitRate(bitrates);
+		if (stereo) {
+			recorder.setAudioChannels(2);
+		} else {
+			recorder.setAudioChannels(1);
+		}
+		recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION);
+        switch (format) {
+        	case GPP:
+        		recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        		formatsuf = "3gpp";
+        		break;
+        	case AMR:
+        		recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+        		formatsuf = "amr";
+        		break;
+        	case MP4:
+        		recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        		formatsuf = "mp4";
+        		break;
+        	default:
+        		recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        		formatsuf = "3gpp";
+        		break;
+        	}
+        tmpCurrentSong = dir.getAbsolutePath() + "/" + OutputFilename + "." + formatsuf;
+        audiofile = new File(tmpCurrentSong);
+        recorder.setOutputFile(audiofile.getAbsolutePath());
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        try {
+            recorder.prepare();
+        } catch (IOException e) {
+            Log.v(LOG_TAG, "prepare() failed");
+            return;
+        }
+        recorder.start();
+        setRecording(true);
+		}
 	}
 	
 	public void recordMic(String OutputFilename, int bitrates, FileFormats format) {

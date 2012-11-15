@@ -6,7 +6,7 @@
                         android:title="Autorecord call"
                         android:summary="Choose autorecord type"
                         android:key="listAutorecord"
-                        android:defaultValue="No"
+                        android:defaultValue="3"
                         android:entries="@array/AutoRecordNameAray"
                         android:entryValues="@array/AutoRecordValueAray" />
 			

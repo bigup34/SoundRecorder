@@ -27,14 +27,24 @@ public class Settings {
 	
 	public boolean getAutoRecordCall() {
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context); 
-		String tmp = sharedPref.getString("listAutorecord", "No");
-		if (tmp == "No")
-			return false;
-		else if (tmp == "Yes")
+		String tmp = sharedPref.getString("listAutorecord", "3");
+		int tmp2 = Integer.parseInt(tmp);
+		if (tmp2 == 1)
+		{
 			notif = false;
-		else
+			return true;
+		}
+		else if (tmp2 == 2)
+		{	
 			notif = true;
-		return true;
+			return true;
+		}
+		else if (tmp2 == 3)
+		{
+			notif = false;
+			return false;
+		}
+		return false;
 	}
 	
 	public boolean getStereo() {
