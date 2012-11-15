@@ -182,7 +182,7 @@ public class AudioManager {
 		recorder = new MediaRecorder();
 		recorder.setAudioEncodingBitRate(bitrates);
 		if (stereo) {
-			recorder.setAudioChannels(1);
+			recorder.setAudioChannels(2);
 		} else {
 			recorder.setAudioChannels(1);
 		}
