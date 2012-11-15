@@ -80,8 +80,8 @@ public class FileManager {
 	public boolean renameFile(String filename, String newFilename)
 	{
 		File file = new File (rootFolder + File.separator + filename);
+		
 		String[] tokens = filename.split("\\.");
-
 		return (file.renameTo(new File(rootFolder + File.separator + newFilename + "." + tokens[tokens.length - 1])));
 	}
 	

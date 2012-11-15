@@ -7,13 +7,13 @@
     <string name="application_image_description">Application image</string>
     <string name="manager_button_text">File Manager</string>
     <string name="converter_button_text">File Converter</string>
-    <string name="application_version">Version Alpha 0.3</string>
+    <string name="application_version">Version Alpha 0.5</string>
     <string name="title_activity_record_view">RecordView</string>
     <string name="sound_player_button_text">Sound Player</string>
     <string name="background_color">#000000</string>
     <string name="micro_image">Image of a microphone</string>
     <string name="back_image">back</string>
-    <string name="time">Time</string>
+    <string name="time">00:00:00</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_file_manager_view">FileManagerView</string>
     <string name="title_activity_settings_view">SettingsView</string>

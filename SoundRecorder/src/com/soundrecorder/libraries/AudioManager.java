@@ -52,6 +52,8 @@ public class AudioManager {
 		Player = new MediaPlayer();
 		try {
 			Player.setDataSource(Path);
+			Player.prepare();
+			Log.e(LOG_TAG, "song loaded : " + Path);
 		}
 		catch (IOException e) {
             Log.e(LOG_TAG, "setDataSource() failed");
@@ -63,30 +65,26 @@ public class AudioManager {
 	
 	public void playSong() {
 		if (isSongLoad()) {
-			try {
-				Player.prepare();
+			if (isPaused) 
+			{
+				Player.start();
+				isPaused = false;
+				isPlaying = true;
+			}
+			else
+			{
 				Player.start();	
+				isPlaying = true;
 			}
-			catch (IOException e) {
-				Log.e(LOG_TAG, tmpCurrentSong);
-				Log.e(LOG_TAG, "prepare() failed");
-				return;
-			}
-			isPlaying = true;
 		}
 	}
 	
 	public void pauseSong() {
 		if (isSongLoad()) {
-			if (isPaused) {
-				Player.start();
-				isPaused = false;
-			}
-			else {
 				Player.pause();
 				isPaused = true;
-			}
 		}
+		isPlaying = false;
 	}
 	
 	public int getCurrentTime() {
@@ -111,10 +109,10 @@ public class AudioManager {
 	}
 	
 	public void stopSong() {
-		if (isPlaying()) {
-			Player.release();
-			Player = null;
-		}
+		Player.release();
+		Player = null;
+		isPaused = false;
+		isPlaying = false;
 	}
 	
 	public void setRootFolder(String folder)

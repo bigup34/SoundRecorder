@@ -42,8 +42,7 @@ public class FileManagerView extends Activity {
 	
 	private OnClickListener clickListenerText = new OnClickListener() {
 		public void onClick(View v) {
-			Intent intent = new Intent().setClass(getApplicationContext(), SoundPlayerView.class);
-			startActivity(intent);
+			playSong(v.getId());
 		}
 	};
 	
@@ -141,6 +140,13 @@ public class FileManagerView extends Activity {
 		fileManager.setAs(RingtoneManager.TYPE_NOTIFICATION, fileList[curOptionItem]);
 	}
 	
+	private void playSong(int song)
+	{
+		Intent intent = new Intent().setClass(getApplicationContext(), SoundPlayerView.class);
+		intent.putExtra("songId", song);
+		startActivity(intent);
+	}
+	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		if (v.getId() == R.id.sv_content) 
@@ -160,6 +166,7 @@ public class FileManagerView extends Activity {
 	public boolean onContextItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	    	case Menu.FIRST:
+	    		playSong(curOptionItem);
 	    		break;
 	        
 	    	case Menu.FIRST + 1:
