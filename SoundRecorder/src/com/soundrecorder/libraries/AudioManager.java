@@ -40,6 +40,10 @@ public class AudioManager {
 		return isPlaying;
 	}
 	
+	public boolean isPaused() {
+		return isPaused;
+	}
+	
 	public boolean isRecording() {
 		return isRecording;
 	}

@@ -51,7 +51,6 @@ public class RecordView extends Activity {
 	    new Thread() {
 	        @Override
 	        public void run() {
-	        	Log.e("lol", "run");
 				while (isRecording == true)
 				{
 					runOnUiThread(new Runnable() {

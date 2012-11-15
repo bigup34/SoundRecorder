@@ -6,7 +6,6 @@ import com.soundrecorder.libraries.FileManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,6 +34,7 @@ public class SoundPlayerView extends Activity {
 			
 			wasPlaying = audioManager.isPlaying();
 			audioManager.stopSong();
+			curTime.setText("00:00:00");
 			if (curSong > 0)
 				curSong--;
 			else
@@ -53,6 +53,7 @@ public class SoundPlayerView extends Activity {
 			
 			wasPlaying = audioManager.isPlaying();
 			audioManager.stopSong();
+			curTime.setText("00:00:00");
 			if (curSong < fileList.length - 1)
 				curSong++;
 			else
@@ -64,6 +65,7 @@ public class SoundPlayerView extends Activity {
 				audioManager.playSong();
 		}
 	};
+	
 	
 	private OnClickListener clickListenerPlay = new OnClickListener() {
 		public void onClick(View v) {
@@ -84,6 +86,38 @@ public class SoundPlayerView extends Activity {
 			playButton.setImageResource(R.drawable.play);
 		}
 		totalTime.setText(getDuration());
+		updateTime();
+	}
+	
+	private void updateTime() {
+	    new Thread() {
+	        @Override
+	        public void run() {
+				while (audioManager.isPlaying() == true)
+				{
+					if (audioManager.isPaused() == false)
+					{
+						runOnUiThread(new Runnable() {
+							public void run() {
+								if (getCurPos().compareTo(getDuration()) == 0)
+								{
+									playSong();
+									curTime.setText("00:00:00");
+								}
+								else
+									curTime.setText(getCurPos());
+							}
+						});
+					}
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+	        }
+	 }.start();
+
 	}
 	
 	private String getCurPos()
