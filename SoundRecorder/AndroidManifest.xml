@@ -38,11 +38,13 @@
         </activity>
         <activity
             android:name=".SettingsView"
-            android:label="@string/title_activity_settings_view" >
+            android:label="@string/title_activity_settings_view"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".SoundPlayerView"
-            android:label="@string/title_activity_sound_player_view" >
+            android:label="@string/title_activity_sound_player_view"
+            android:screenOrientation="nosensor" >
         </activity>
         <activity
             android:name=".PopUp"
