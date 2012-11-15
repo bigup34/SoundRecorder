@@ -18,14 +18,23 @@ public class SoundPlayerView extends Activity {
 	
 	private FileManager	fileManager;
 	private AudioManager audioManager = new AudioManager();
+	private boolean toFileManager = false;
 	private int curSong;
 	private String[] fileList;
 	
 	private OnClickListener clickListenerBack = new OnClickListener() {
 		public void onClick(View v) {
 			audioManager.stopSong();
-			Intent intent = new Intent().setClass(getApplicationContext(), RecorderMenu.class);
-			startActivity(intent);
+			if (toFileManager == true)
+			{
+				Intent intent = new Intent().setClass(getApplicationContext(), FileManagerView.class);
+				startActivity(intent);
+			}
+			else
+			{
+				Intent intent = new Intent().setClass(getApplicationContext(), RecorderMenu.class);
+				startActivity(intent);
+			}
 		}
 	};
 	
@@ -179,7 +188,10 @@ public class SoundPlayerView extends Activity {
         audioManager.loadSong(fileManager.getRootFolder() + '/' + fileList[curSong]);
         totalTime.setText(getDuration());
         if (extras != null)
+        {
+        	toFileManager = true;
         	playSong();
+        }
     }
 
     @Override

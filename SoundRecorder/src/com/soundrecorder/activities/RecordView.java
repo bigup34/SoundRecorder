@@ -25,6 +25,7 @@ public class RecordView extends Activity {
 	private TextView	textInfo;
 	private TextView	timeInfo;
 	private Boolean 	isRecording = false;
+	private Boolean		isOut = true;
 	private Integer		sec, min, hour;
 	private String		filename = null;
 	private Settings	settings = new Settings(this);
@@ -52,6 +53,7 @@ public class RecordView extends Activity {
 	        public void run() {
 				while (isRecording == true)
 				{
+					isOut = false;
 					runOnUiThread(new Runnable() {
                         public void run() {
                         	timeInfo.setText(String.format("%02d", hour) + ':' + String.format("%02d", min) + ':' + String.format("%02d", sec));
@@ -74,6 +76,7 @@ public class RecordView extends Activity {
 						e.printStackTrace();
 					}
 				}
+				isOut = true;
 	        }
 	 }.start();
 
@@ -95,26 +98,32 @@ public class RecordView extends Activity {
 		public void onClick(View v) {
 			if (isRecording == false)
 			{
-				audioManager.setStereo(settings.getStereo());
-				mic.setImageResource(R.drawable.mic_recording);
-				isRecording = true;
-				textInfo.setText("Recording ...");
-				filename = getFileName();
-				audioManager.recordMic(filename, settings.getBitRates(), settings.getFormat());
-				updateTime();
+				if (isOut == true)
+				{
+					audioManager.setStereo(settings.getStereo());
+					mic.setImageResource(R.drawable.mic_recording);
+					isRecording = true;
+					textInfo.setText("Recording ...");
+					filename = getFileName();
+					audioManager.recordMic(filename, settings.getBitRates(), settings.getFormat());
+					updateTime();
+				}
 			}
 			else
 			{
-				mic.setImageResource(R.drawable.mic);
-				audioManager.stopRecording();
-				isRecording = false;
-				textInfo.setText("Press mic to start recording");
-				sec = 0;
-				min = 0;
-				hour = 0;
-				timeInfo.setText("00:00:00");
-				Toast.makeText(getBaseContext(), "File recorded has been saved as " + filename, Toast.LENGTH_LONG).show();
-				filename = null;
+				if (sec > 2)
+				{
+					mic.setImageResource(R.drawable.mic);
+					audioManager.stopRecording();
+					isRecording = false;
+					textInfo.setText("Press mic to start recording");
+					sec = 0;
+					min = 0;
+					hour = 0;
+					timeInfo.setText("00:00:00");
+					Toast.makeText(getBaseContext(), "File recorded has been saved as " + filename, Toast.LENGTH_LONG).show();
+					filename = null;
+				}
 			}
 		}
 	};
