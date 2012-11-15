@@ -111,7 +111,7 @@ public class FileManagerView extends Activity {
 		{
 			TextView text = new TextView(this);
 			text.setTextColor(Color.WHITE);
-			if (i % 2 == 1)
+			if (i % 2 != 0)
 				text.setBackgroundColor(Color.rgb(90, 90, 90));
 			text.setPadding(0, 30, 0, 30);
 			text.setOnClickListener(clickListenerText);

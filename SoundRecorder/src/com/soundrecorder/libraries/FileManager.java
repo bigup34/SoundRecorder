@@ -2,10 +2,12 @@ package com.soundrecorder.libraries;
 
 import java.io.File;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 
 
@@ -102,9 +104,38 @@ public class FileManager {
 	}
 	
 	// TYPES : RingtoneManager.TYPE_NOTIFICATION, RingtoneManager.TYPE_ALARM, RingtoneManager.TYPE_RINGTONE
-	public void setAs(int type, String filename) {
-		File tmp = new File(rootFolder + File.separator + filename);
-		Uri uri = Uri.fromFile(tmp);
-		RingtoneManager.setActualDefaultRingtoneUri(c, type, uri);
-	}
+		public void setAs(int type, String filename) {
+			File tmp = new File(rootFolder + File.separator + filename);
+			
+			ContentValues values = new ContentValues();
+			values.put(MediaStore.MediaColumns.DATA, tmp.getAbsolutePath());
+			values.put(MediaStore.MediaColumns.TITLE, filename);
+			if (type == RingtoneManager.TYPE_RINGTONE)
+			{
+				values.put(MediaStore.Audio.Media.IS_RINGTONE, true);
+				values.put(MediaStore.Audio.Media.IS_NOTIFICATION, false);
+				values.put(MediaStore.Audio.Media.IS_ALARM, false);
+				values.put(MediaStore.Audio.Media.IS_MUSIC, false);
+			}
+			else if (type == RingtoneManager.TYPE_ALARM)
+			{
+				values.put(MediaStore.Audio.Media.IS_RINGTONE, false);
+				values.put(MediaStore.Audio.Media.IS_NOTIFICATION, false);
+				values.put(MediaStore.Audio.Media.IS_ALARM, true);
+				values.put(MediaStore.Audio.Media.IS_MUSIC, false);
+			}
+			else if (type == RingtoneManager.TYPE_NOTIFICATION)
+			{
+				values.put(MediaStore.Audio.Media.IS_RINGTONE, false);
+				values.put(MediaStore.Audio.Media.IS_NOTIFICATION, true);
+				values.put(MediaStore.Audio.Media.IS_ALARM, false);
+				values.put(MediaStore.Audio.Media.IS_MUSIC, false);
+			}
+			
+			//Insert it into the database
+			Uri uri = MediaStore.Audio.Media.getContentUriForPath(tmp.getAbsolutePath());
+			Uri newUri = c.getContentResolver().insert(uri, values);
+
+			RingtoneManager.setActualDefaultRingtoneUri(c, type, newUri);
+		}
 }

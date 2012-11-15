@@ -7,7 +7,7 @@
     <string name="application_image_description">Application image</string>
     <string name="manager_button_text">File Manager</string>
     <string name="converter_button_text">File Converter</string>
-    <string name="application_version">Version Alpha 0.57</string>
+    <string name="application_version">Version Beta 1.01</string>
     <string name="title_activity_record_view">RecordView</string>
     <string name="sound_player_button_text">Sound Player</string>
     <string name="background_color">#000000</string>
