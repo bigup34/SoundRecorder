@@ -1,8 +1,11 @@
 package com.soundrecorder.activities;
 
+import java.io.File;
+
 import com.soundrecorder.libraries.FileManager;
 
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -11,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -162,6 +166,24 @@ public class FileManagerView extends Activity {
 	    }
 	  }
 	
+	public void shareClick()
+	{
+		
+		try
+		{
+			Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+			sharingIntent.setType("audio/3gpp");
+			sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+			File file =  new File( fileManager.getRootFolder() + File.separator + fileList[curOptionItem]);
+			sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+			startActivity(Intent.createChooser(sharingIntent, "Share SoundRecorder Application"));
+		}
+		catch (Exception e)
+		{
+			Log.i("exception", "event share catch e = " + e);
+		}
+	}
+	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
@@ -178,6 +200,7 @@ public class FileManagerView extends Activity {
 	        	break;
 	        	
 	        case Menu.FIRST + 3:
+	        	shareClick();
 	        	break;
 	        
 	        case Menu.FIRST + 4:
