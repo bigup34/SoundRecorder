@@ -157,13 +157,8 @@ public class AudioManager {
 	        		formatsuf = "3gpp";
 	        		break;
 	        	}
-			try {
-				tmpCurrentSong = dir.getAbsolutePath() + "/" + OutputFilename + "." + formatsuf;
-				audiofile = File.createTempFile(OutputFilename, "." + formatsuf, dir);
-			} catch (IOException e) {
-				Log.e(LOG_TAG, "sdcard access error");
-				return;
-			}
+			tmpCurrentSong = dir.getAbsolutePath() + "/" + OutputFilename + "." + formatsuf;
+			audiofile = new File(tmpCurrentSong);
 	        recorder.setOutputFile(audiofile.getAbsolutePath());
 	        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 	        try {
@@ -208,13 +203,8 @@ public class AudioManager {
         		formatsuf = "3gpp";
         		break;
         	}
-		try {
-			tmpCurrentSong = dir.getAbsolutePath() + "/" + OutputFilename + "." + formatsuf;
-			audiofile = File.createTempFile(OutputFilename, "." + formatsuf, dir);
-		} catch (IOException e) {
-			Log.e(LOG_TAG, "sdcard access error");
-			return;
-		}
+        tmpCurrentSong = dir.getAbsolutePath() + "/" + OutputFilename + "." + formatsuf;
+        audiofile = new File(tmpCurrentSong);
         recorder.setOutputFile(audiofile.getAbsolutePath());
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         try {
@@ -225,7 +215,6 @@ public class AudioManager {
         }
         recorder.start();
         setRecording(true);
-        tmpCurrentSong = audiofile.getAbsolutePath();
 		}
 	}
 	

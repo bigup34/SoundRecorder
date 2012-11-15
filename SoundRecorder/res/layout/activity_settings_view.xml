@@ -29,7 +29,7 @@
                         android:title="Encoder Format"
                         android:summary="Choose format for the recorded sound."
                         android:key="listFormats"
-                        android:defaultValue="3GP"
+                        android:defaultValue="1"
                         android:entries="@array/formats_arrays"
                         android:entryValues="@array/formatvalues_arrays" />
                  <ListPreference
